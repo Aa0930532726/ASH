@@ -19,7 +19,7 @@
   <section class="py-12 px-4 max-w-6xl mx-auto">
     <h2 class="text-2xl font-bold text-center mb-6">作品集展示</h2>
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-      <img <img src="images/六月.jpg" class="rounded-lg shadow-lg hover:scale-105 transition" alt="作品1">
+      <img <img src="images/六月.png" class="rounded-lg shadow-lg hover:scale-105 transition" alt="作品1">
       <img src="https://source.unsplash.com/300x300/?haircut,2" class="rounded-lg shadow-lg hover:scale-105 transition" alt="作品2">
       <img src="https://source.unsplash.com/300x300/?haircut,3" class="rounded-lg shadow-lg hover:scale-105 transition" alt="作品3">
       <img src="https://source.unsplash.com/300x300/?haircut,4" class="rounded-lg shadow-lg hover:scale-105 transition" alt="作品4">

@@ -32,7 +32,7 @@
   <section class="bg-gray-100 py-10 px-4 text-center">
     <h2 class="text-xl font-bold mb-4">預約與聯絡</h2>
     <p class="mb-4">歡迎透過 LINE 與我們聯繫預約！</p>
-    <a href="https://lin.ee/你的LINE連結" target="_blank" class="inline-block bg-green-500 text-white px-6 py-3 rounded-full hover:bg-green-600 transition">LINE 預約</a>
+    <a href=https://lin.ee/Yc3Nj5Wp target="_blank" class="inline-block bg-green-500 text-white px-6 py-3 rounded-full hover:bg-green-600 transition">LINE 預約</a>
   </section>
 
   <footer class="text-center py-6 text-sm text-gray-500">

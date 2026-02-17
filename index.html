@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ASH Hair Studio｜線上預約系統</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body class="bg-rose-50 text-stone-800">
+    <header class="bg-stone-900 text-white">
+      <div class="mx-auto max-w-6xl px-6 py-16">
+        <p class="mb-2 text-sm tracking-[0.25em] text-rose-200">ASH HAIR STUDIO</p>
+        <h1 class="mb-4 text-4xl font-bold">美髮預約系統</h1>
+        <p class="max-w-2xl text-stone-200">
+          快速選擇設計師、服務項目與時段，立即完成預約。送出後會顯示於下方預約清單，方便你管理所有來店時程。
+        </p>
+      </div>
+    </header>
+
+    <main class="mx-auto grid max-w-6xl gap-8 px-6 py-10 lg:grid-cols-2">
+      <section class="rounded-2xl bg-white p-6 shadow">
+        <h2 class="mb-4 text-2xl font-semibold">新增預約</h2>
+        <form id="bookingForm" class="space-y-4">
+          <div>
+            <label class="mb-1 block text-sm font-medium" for="name">顧客姓名</label>
+            <input id="name" name="name" required class="w-full rounded-lg border border-stone-300 px-3 py-2" placeholder="例如：王小美" />
+          </div>
+
+          <div>
+            <label class="mb-1 block text-sm font-medium" for="phone">聯絡電話</label>
+            <input id="phone" name="phone" required pattern="09\\d{8}" class="w-full rounded-lg border border-stone-300 px-3 py-2" placeholder="09xxxxxxxx" />
+          </div>
+
+          <div>
+            <label class="mb-1 block text-sm font-medium" for="service">服務項目</label>
+            <select id="service" name="service" required class="w-full rounded-lg border border-stone-300 px-3 py-2">
+              <option value="">請選擇項目</option>
+              <option>剪髮造型</option>
+              <option>質感染髮</option>
+              <option>燙髮設計</option>
+              <option>頭皮護理</option>
+            </select>
+          </div>
+
+          <div class="grid gap-4 sm:grid-cols-2">
+            <div>
+              <label class="mb-1 block text-sm font-medium" for="date">預約日期</label>
+              <input id="date" name="date" type="date" required class="w-full rounded-lg border border-stone-300 px-3 py-2" />
+            </div>
+            <div>
+              <label class="mb-1 block text-sm font-medium" for="time">預約時段</label>
+              <select id="time" name="time" required class="w-full rounded-lg border border-stone-300 px-3 py-2">
+                <option value="">請選擇時段</option>
+                <option>10:00</option>
+                <option>11:30</option>
+                <option>13:00</option>
+                <option>14:30</option>
+                <option>16:00</option>
+                <option>17:30</option>
+              </select>
+            </div>
+          </div>
+
+          <div>
+            <label class="mb-1 block text-sm font-medium" for="stylist">指定設計師</label>
+            <select id="stylist" name="stylist" required class="w-full rounded-lg border border-stone-300 px-3 py-2">
+              <option value="">請選擇設計師</option>
+              <option>Ash</option>
+              <option>Kelly</option>
+              <option>Neo</option>
+            </select>
+          </div>
+
+          <button type="submit" class="w-full rounded-lg bg-rose-600 px-4 py-3 font-semibold text-white hover:bg-rose-700">送出預約</button>
+          <p id="message" class="text-sm"></p>
+        </form>
+      </section>
+
+      <section class="rounded-2xl bg-white p-6 shadow">
+        <div class="mb-4 flex items-center justify-between">
+          <h2 class="text-2xl font-semibold">今日預約清單</h2>
+          <button id="clearAll" class="rounded-lg border border-stone-300 px-3 py-2 text-sm hover:bg-stone-100">清空全部</button>
+        </div>
+        <ul id="bookingList" class="space-y-3"></ul>
+      </section>
+    </main>
+
+    <script>
+      const form = document.getElementById('bookingForm');
+      const bookingList = document.getElementById('bookingList');
+      const message = document.getElementById('message');
+      const clearAllButton = document.getElementById('clearAll');
+      const storageKey = 'ash-bookings';
+
+      const today = new Date().toISOString().split('T')[0];
+      document.getElementById('date').setAttribute('min', today);
+
+      function loadBookings() {
+        return JSON.parse(localStorage.getItem(storageKey) || '[]');
+      }
+
+      function saveBookings(bookings) {
+        localStorage.setItem(storageKey, JSON.stringify(bookings));
+      }
+
+      function renderBookings() {
+        const bookings = loadBookings().sort((a, b) => `${a.date}${a.time}`.localeCompare(`${b.date}${b.time}`));
+
+        if (bookings.length === 0) {
+          bookingList.innerHTML = '<li class="rounded-lg border border-dashed border-stone-300 p-4 text-sm text-stone-500">目前沒有任何預約紀錄。</li>';
+          return;
+        }
+
+        bookingList.innerHTML = bookings
+          .map(
+            (booking, index) => `
+            <li class="rounded-xl border border-stone-200 p-4">
+              <p class="font-semibold">${booking.date} ${booking.time}｜${booking.name}</p>
+              <p class="text-sm text-stone-600">${booking.service}・設計師 ${booking.stylist}・${booking.phone}</p>
+              <button data-index="${index}" class="mt-2 text-sm text-rose-600 hover:underline">取消這筆預約</button>
+            </li>
+          `
+          )
+          .join('');
+      }
+
+      form.addEventListener('submit', (event) => {
+        event.preventDefault();
+
+        const data = Object.fromEntries(new FormData(form).entries());
+        const bookings = loadBookings();
+
+        const conflict = bookings.some(
+          (booking) => booking.date === data.date && booking.time === data.time && booking.stylist === data.stylist
+        );
+
+        if (conflict) {
+          message.className = 'text-sm text-red-600';
+          message.textContent = '此設計師在該時段已有預約，請改選其他時段。';
+          return;
+        }
+
+        bookings.push(data);
+        saveBookings(bookings);
+        renderBookings();
+        form.reset();
+
+        message.className = 'text-sm text-emerald-600';
+        message.textContent = '預約成功！我們會盡快與你確認。';
+      });
+
+      bookingList.addEventListener('click', (event) => {
+        if (!(event.target instanceof HTMLButtonElement)) {
+          return;
+        }
+
+        const { index } = event.target.dataset;
+        if (index === undefined) {
+          return;
+        }
+
+        const bookings = loadBookings();
+        bookings.splice(Number(index), 1);
+        saveBookings(bookings);
+        renderBookings();
+      });
+
+      clearAllButton.addEventListener('click', () => {
+        localStorage.removeItem(storageKey);
+        renderBookings();
+        message.className = 'text-sm text-stone-600';
+        message.textContent = '已清空全部預約資料。';
+      });
+
+      renderBookings();
+    </script>
+  </body>
+</html>

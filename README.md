@@ -1,42 +1,17 @@
-# ASH<!DOCTYPE html>
-<html lang="zh-Hant">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>美髮作品集</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-</head>
-<body class="bg-white text-gray-800">
-  <!-- Hero Section -->
-  <section class="bg-cover bg-center h-screen text-white flex flex-col justify-center items-center" style="background-image: url('https://source.unsplash.com/featured/?hair');">
-    <div class="bg-black bg-opacity-50 p-6 rounded-xl">
-      <h1 class="text-4xl font-bold mb-2">Ash作品集</h1>
-      <p class="text-lg">染髮設計</p>
-    </div>
-  </section>
+# ASH Hair Studio 預約系統
 
-  <!-- Gallery Section -->
-  <section class="py-12 px-4 max-w-6xl mx-auto">
-    <h2 class="text-2xl font-bold text-center mb-6">作品集展示</h2>
-    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-      <img <img src="images/line_oa_chat_240417_091729.jpg" class="rounded-lg shadow-lg hover:scale-105 transition" alt="作品1">
-      <img src="https://source.unsplash.com/300x300/?haircut,2" class="rounded-lg shadow-lg hover:scale-105 transition" alt="作品2">
-      <img src="https://source.unsplash.com/300x300/?haircut,3" class="rounded-lg shadow-lg hover:scale-105 transition" alt="作品3">
-      <img src="https://source.unsplash.com/300x300/?haircut,4" class="rounded-lg shadow-lg hover:scale-105 transition" alt="作品4">
-      <img src="https://source.unsplash.com/300x300/?haircut,5" class="rounded-lg shadow-lg hover:scale-105 transition" alt="作品5">
-      <img src="https://source.unsplash.com/300x300/?haircut,6" class="rounded-lg shadow-lg hover:scale-105 transition" alt="作品6">
-    </div>
-  </section>
+這是一個簡易的美髮預約前端頁面，使用 HTML + Tailwind CSS + 原生 JavaScript 製作。
 
-  <!-- Contact Section -->
-  <section class="bg-gray-100 py-10 px-4 text-center">
-    <h2 class="text-xl font-bold mb-4">預約與聯絡</h2>
-    <p class="mb-4">歡迎透過 LINE 與我們聯繫預約！</p>
-    <a href=https://lin.ee/Yc3Nj5Wp target="_blank" class="inline-block bg-green-500 text-white px-6 py-3 rounded-full hover:bg-green-600 transition">LINE 預約</a>
-  </section>
+## 功能
+- 填寫顧客姓名、電話、服務項目、日期、時段與設計師。
+- 自動檢查同設計師同時段衝突。
+- 以 `localStorage` 保存預約資料。
+- 可刪除單筆預約或一鍵清空。
 
-  <footer class="text-center py-6 text-sm text-gray-500">
-    © 2025 Ash作品集 | 設計製作 by ChatGPT
-  </footer>
-</body>
-</html>
+## 使用方式
+1. 直接用瀏覽器開啟 `index.html`。
+2. 或透過簡易伺服器執行：
+   ```bash
+   python3 -m http.server 8000
+   ```
+3. 開啟 `http://localhost:8000`。

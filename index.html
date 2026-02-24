@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>HairFlow 美髮會員系統</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <div>
+        <h1>HairFlow 美髮會員系統</h1>
+        <p>會員、預約、療程、點數、庫存、報表一站管理</p>
+      </div>
+      <button id="resetDemo" class="danger">重設示範資料</button>
+    </header>
+
+    <main>
+      <section class="cards" id="dashboardCards"></section>
+
+      <section class="panel">
+        <h2>會員管理</h2>
+        <form id="memberForm" class="grid-form">
+          <input name="name" placeholder="姓名" required />
+          <input name="phone" placeholder="手機" required />
+          <input name="birthday" type="date" required />
+          <select name="tier">
+            <option>一般會員</option>
+            <option>銀卡會員</option>
+            <option>金卡會員</option>
+            <option>白金會員</option>
+          </select>
+          <button>新增會員</button>
+        </form>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>姓名</th>
+                <th>手機</th>
+                <th>生日</th>
+                <th>等級</th>
+                <th>點數</th>
+                <th>儲值金</th>
+              </tr>
+            </thead>
+            <tbody id="memberTable"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="two-col">
+        <article class="panel">
+          <h2>服務與套票</h2>
+          <form id="serviceForm" class="grid-form compact">
+            <input name="name" placeholder="服務名稱" required />
+            <input name="price" type="number" min="0" placeholder="價格" required />
+            <input name="duration" type="number" min="10" step="10" placeholder="分鐘" required />
+            <button>新增服務</button>
+          </form>
+          <ul id="serviceList" class="list"></ul>
+        </article>
+
+        <article class="panel">
+          <h2>預約排程</h2>
+          <form id="appointmentForm" class="grid-form compact">
+            <select name="memberId" id="appointmentMember" required></select>
+            <select name="serviceId" id="appointmentService" required></select>
+            <input name="stylist" placeholder="設計師" required />
+            <input name="date" type="date" required />
+            <input name="time" type="time" required />
+            <button>建立預約</button>
+          </form>
+          <ul id="appointmentList" class="list"></ul>
+        </article>
+      </section>
+
+      <section class="two-col">
+        <article class="panel">
+          <h2>消費結帳與點數</h2>
+          <form id="transactionForm" class="grid-form compact">
+            <select name="memberId" id="transactionMember" required></select>
+            <input name="amount" type="number" min="0" placeholder="消費金額" required />
+            <select name="payment">
+              <option>現金</option>
+              <option>信用卡</option>
+              <option>儲值金</option>
+              <option>LINE Pay</option>
+            </select>
+            <button>新增交易</button>
+          </form>
+          <ul id="transactionList" class="list"></ul>
+        </article>
+
+        <article class="panel">
+          <h2>庫存與提醒</h2>
+          <div class="inventory">
+            <ul id="inventoryList" class="list"></ul>
+            <small>低於安全庫存時會標示「補貨」。</small>
+          </div>
+          <h3>訊息範本</h3>
+          <ul class="list">
+            <li>📩 預約提醒：親愛的 {{name}}，您於 {{date}} {{time}} 預約 {{service}}，期待見面！</li>
+            <li>🎂 生日優惠：{{name}} 生日月享染護 85 折，回覆立即預約。</li>
+            <li>⭐ 回訪召回：{{name}} 已 45 天未回店，本月加贈 200 點。</li>
+          </ul>
+        </article>
+      </section>
+
+      <section class="panel">
+        <h2>營運報表</h2>
+        <div id="reportBars" class="bars"></div>
+      </section>
+    </main>
+
+    <script src="app.js"></script>
+  </body>
+</html>

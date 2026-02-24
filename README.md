@@ -1,42 +1,26 @@
-# ASH<!DOCTYPE html>
-<html lang="zh-Hant">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>美髮作品集</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-</head>
-<body class="bg-white text-gray-800">
-  <!-- Hero Section -->
-  <section class="bg-cover bg-center h-screen text-white flex flex-col justify-center items-center" style="background-image: url('https://source.unsplash.com/featured/?hair');">
-    <div class="bg-black bg-opacity-50 p-6 rounded-xl">
-      <h1 class="text-4xl font-bold mb-2">Ash作品集</h1>
-      <p class="text-lg">染髮設計</p>
-    </div>
-  </section>
+# HairFlow 美髮會員系統
 
-  <!-- Gallery Section -->
-  <section class="py-12 px-4 max-w-6xl mx-auto">
-    <h2 class="text-2xl font-bold text-center mb-6">作品集展示</h2>
-    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-      <img <img src="images/line_oa_chat_240417_091729.jpg" class="rounded-lg shadow-lg hover:scale-105 transition" alt="作品1">
-      <img src="https://source.unsplash.com/300x300/?haircut,2" class="rounded-lg shadow-lg hover:scale-105 transition" alt="作品2">
-      <img src="https://source.unsplash.com/300x300/?haircut,3" class="rounded-lg shadow-lg hover:scale-105 transition" alt="作品3">
-      <img src="https://source.unsplash.com/300x300/?haircut,4" class="rounded-lg shadow-lg hover:scale-105 transition" alt="作品4">
-      <img src="https://source.unsplash.com/300x300/?haircut,5" class="rounded-lg shadow-lg hover:scale-105 transition" alt="作品5">
-      <img src="https://source.unsplash.com/300x300/?haircut,6" class="rounded-lg shadow-lg hover:scale-105 transition" alt="作品6">
-    </div>
-  </section>
+這是一個可直接開啟使用的前端單頁系統，提供美髮沙龍常見的會員與營運管理功能。
 
-  <!-- Contact Section -->
-  <section class="bg-gray-100 py-10 px-4 text-center">
-    <h2 class="text-xl font-bold mb-4">預約與聯絡</h2>
-    <p class="mb-4">歡迎透過 LINE 與我們聯繫預約！</p>
-    <a href=https://lin.ee/Yc3Nj5Wp target="_blank" class="inline-block bg-green-500 text-white px-6 py-3 rounded-full hover:bg-green-600 transition">LINE 預約</a>
-  </section>
+## 功能
 
-  <footer class="text-center py-6 text-sm text-gray-500">
-    © 2025 Ash作品集 | 設計製作 by ChatGPT
-  </footer>
-</body>
-</html>
+- 會員管理（新增姓名、手機、生日、等級）
+- 服務與套票管理（價格、時長）
+- 預約排程（會員、服務、設計師、日期時間）
+- 消費交易與點數累積（每 20 元累 1 點）
+- 會員儲值金扣款邏輯
+- 庫存安全量提醒
+- 生日/預約/回訪訊息範本
+- 儀表板 KPI（會員、營收、今日預約、總點數）
+- 月營收趨勢圖（近 6 個月）
+- LocalStorage 資料持久化與一鍵重設示範資料
+
+## 使用方式
+
+直接在瀏覽器開啟 `index.html` 即可，或使用簡單靜態伺服器：
+
+```bash
+python3 -m http.server 8000
+```
+
+開啟：<http://localhost:8000>

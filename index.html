@@ -1,0 +1,231 @@
+<!doctype html>
+<html lang="zh-TW" class="h-full">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ANH 髮廊預約</title>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;600&family=Cormorant+Garamond:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    :root { --bg-color:#f8f6f3; --card-color:#ffffff; --text-color:#2d2d2d; --accent-color:#8b7355; --button-color:#06c755; }
+    * { box-sizing:border-box; }
+    html, body { height:100%; margin:0; padding:0; }
+    body { font-family:'Noto Sans TC', sans-serif; background:var(--bg-color); color:var(--text-color); }
+    .brand-font { font-family:'Cormorant Garamond', serif; }
+    .service-checkbox:checked + label { background:var(--accent-color); color:#fff; border-color:var(--accent-color); }
+    .service-checkbox:checked + label .price { color:rgba(255,255,255,.9); }
+    .count-btn.active { background:var(--accent-color); color:#fff; border-color:var(--accent-color); }
+    summary { list-style:none; }
+    summary::-webkit-details-marker { display:none; }
+  </style>
+</head>
+<body class="h-full">
+  <div class="w-full h-full overflow-auto">
+    <div class="max-w-lg mx-auto px-4 py-8 pb-32">
+      <header class="text-center mb-8">
+        <h1 class="brand-font text-4xl font-light tracking-[0.3em] mb-2">A N H</h1>
+        <p class="text-sm tracking-widest" style="color:var(--accent-color)">手機快速預約</p>
+        <div class="flex items-center justify-center gap-2 mt-4 text-xs" style="color:var(--accent-color)">
+          <span>選擇服務</span><span>→</span><span>選日期</span><span>→</span><span>選時間</span>
+        </div>
+        <p class="text-xs mt-2 opacity-60">送出後會同步寫入 Notion，並自動開啟 LINE</p>
+      </header>
+
+      <section class="rounded-2xl p-5 mb-4 shadow-sm bg-white">
+        <h2 class="text-sm font-medium mb-4" style="color:var(--accent-color)">基本資料</h2>
+        <div class="mb-4">
+          <label class="block text-xs mb-2 opacity-70">稱呼（可不填）</label>
+          <input id="customer-name" type="text" placeholder="例如：小美" class="w-full px-4 py-3 rounded-xl border text-sm focus:outline-none" style="border-color:#e5e5e5;">
+        </div>
+        <div>
+          <label class="block text-xs mb-2 opacity-70">預約人數</label>
+          <div class="flex gap-2" id="person-count">
+            <button type="button" class="count-btn flex-1 py-2 rounded-xl border text-sm transition-all active" data-count="1" style="border-color:#e5e5e5;">1 人</button>
+            <button type="button" class="count-btn flex-1 py-2 rounded-xl border text-sm transition-all" data-count="2" style="border-color:#e5e5e5;">2 人</button>
+            <button type="button" class="count-btn flex-1 py-2 rounded-xl border text-sm transition-all" data-count="3" style="border-color:#e5e5e5;">3 人</button>
+            <button type="button" class="count-btn flex-1 py-2 rounded-xl border text-sm transition-all" data-count="4" style="border-color:#e5e5e5;">4 人</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="rounded-2xl p-5 mb-4 shadow-sm bg-white">
+        <h2 class="text-sm font-medium mb-4" style="color:var(--accent-color)">服務項目</h2>
+        <div class="space-y-3">
+          <details class="group"><summary class="flex items-center justify-between px-4 py-3 rounded-xl border cursor-pointer text-sm" style="border-color:#e5e5e5;"><span class="text-xs font-medium opacity-80">洗髮・頭皮養護</span><span>⌄</span></summary><div class="pt-3 space-y-2"><div><input type="checkbox" id="wash1" class="service-checkbox hidden" data-price="200" data-name="一般洗髮"><label for="wash1" class="flex justify-between items-center px-4 py-3 rounded-xl border cursor-pointer text-sm" style="border-color:#e5e5e5;"><span>一般洗髮</span><span class="price text-xs" style="color:var(--accent-color)">NT$200 起</span></label></div><div><input type="checkbox" id="wash2" class="service-checkbox hidden" data-price="790" data-name="健康洗髮"><label for="wash2" class="flex justify-between items-center px-4 py-3 rounded-xl border cursor-pointer text-sm" style="border-color:#e5e5e5;"><span>健康洗髮</span><span class="price text-xs" style="color:var(--accent-color)">NT$790 起</span></label></div><div><input type="checkbox" id="wash3" class="service-checkbox hidden" data-price="1590" data-name="頭皮健康環境重建護理"><label for="wash3" class="flex justify-between items-center px-4 py-3 rounded-xl border cursor-pointer text-sm" style="border-color:#e5e5e5;"><span>頭皮健康環境重建護理</span><span class="price text-xs" style="color:var(--accent-color)">NT$1590 起</span></label></div></div></details>
+          <details class="group"><summary class="flex items-center justify-between px-4 py-3 rounded-xl border cursor-pointer text-sm" style="border-color:#e5e5e5;"><span class="text-xs font-medium opacity-80">護髮管理</span><span>⌄</span></summary><div class="pt-3 space-y-2"><div><input type="checkbox" id="treat1" class="service-checkbox hidden" data-price="1000" data-name="基礎護髮"><label for="treat1" class="flex justify-between items-center px-4 py-3 rounded-xl border cursor-pointer text-sm" style="border-color:#e5e5e5;"><span>基礎護髮</span><span class="price text-xs" style="color:var(--accent-color)">NT$1000 起</span></label></div><div><input type="checkbox" id="treat2" class="service-checkbox hidden" data-price="1500" data-name="淨氏護髮"><label for="treat2" class="flex justify-between items-center px-4 py-3 rounded-xl border cursor-pointer text-sm" style="border-color:#e5e5e5;"><span>淨氏護髮</span><span class="price text-xs" style="color:var(--accent-color)">NT$1500 起</span></label></div><div><input type="checkbox" id="treat3" class="service-checkbox hidden" data-price="1800" data-name="黑曜光感護髮"><label for="treat3" class="flex justify-between items-center px-4 py-3 rounded-xl border cursor-pointer text-sm" style="border-color:#e5e5e5;"><span>黑曜光感護髮</span><span class="price text-xs" style="color:var(--accent-color)">NT$1800 起</span></label></div><div><input type="checkbox" id="treat4" class="service-checkbox hidden" data-price="2000" data-name="金耀煥生工程護髮"><label for="treat4" class="flex justify-between items-center px-4 py-3 rounded-xl border cursor-pointer text-sm" style="border-color:#e5e5e5;"><span>金耀煥生工程護髮</span><span class="price text-xs" style="color:var(--accent-color)">NT$2000 起</span></label></div><div><input type="checkbox" id="treat5" class="service-checkbox hidden" data-price="2000" data-name="女神護髮"><label for="treat5" class="flex justify-between items-center px-4 py-3 rounded-xl border cursor-pointer text-sm" style="border-color:#e5e5e5;"><span>女神護髮</span><span class="price text-xs" style="color:var(--accent-color)">NT$2000 起</span></label></div></div></details>
+          <details class="group"><summary class="flex items-center justify-between px-4 py-3 rounded-xl border cursor-pointer text-sm" style="border-color:#e5e5e5;"><span class="text-xs font-medium opacity-80">染髮設計</span><span>⌄</span></summary><div class="pt-3 space-y-2"><div><input type="checkbox" id="color1" class="service-checkbox hidden" data-price="1500" data-name="單步染"><label for="color1" class="flex justify-between items-center px-4 py-3 rounded-xl border cursor-pointer text-sm" style="border-color:#e5e5e5;"><span>單步染</span><span class="price text-xs" style="color:var(--accent-color)">NT$1500 起</span></label></div><div><input type="checkbox" id="color2" class="service-checkbox hidden" data-price="2500" data-name="雙步染（含褪色）"><label for="color2" class="flex justify-between items-center px-4 py-3 rounded-xl border cursor-pointer text-sm" style="border-color:#e5e5e5;"><span>雙步染（含褪色）</span><span class="price text-xs" style="color:var(--accent-color)">NT$2500 起</span></label></div><div><input type="checkbox" id="color3" class="service-checkbox hidden" data-price="300" data-name="頭皮隔離保護"><label for="color3" class="flex justify-between items-center px-4 py-3 rounded-xl border cursor-pointer text-sm" style="border-color:#e5e5e5;"><span>頭皮隔離保護</span><span class="price text-xs" style="color:var(--accent-color)">NT$300 起</span></label></div></div></details>
+          <details class="group"><summary class="flex items-center justify-between px-4 py-3 rounded-xl border cursor-pointer text-sm" style="border-color:#e5e5e5;"><span class="text-xs font-medium opacity-80">燙髮設計</span><span>⌄</span></summary><div class="pt-3 space-y-2"><div><input type="checkbox" id="perm1" class="service-checkbox hidden" data-price="1500" data-name="冷燙"><label for="perm1" class="flex justify-between items-center px-4 py-3 rounded-xl border cursor-pointer text-sm" style="border-color:#e5e5e5;"><span>冷燙</span><span class="price text-xs" style="color:var(--accent-color)">NT$1500 起</span></label></div><div><input type="checkbox" id="perm2" class="service-checkbox hidden" data-price="2000" data-name="縮毛矯正"><label for="perm2" class="flex justify-between items-center px-4 py-3 rounded-xl border cursor-pointer text-sm" style="border-color:#e5e5e5;"><span>縮毛矯正</span><span class="price text-xs" style="color:var(--accent-color)">NT$2000 起</span></label></div><div><input type="checkbox" id="perm3" class="service-checkbox hidden" data-price="2000" data-name="溫塑燙"><label for="perm3" class="flex justify-between items-center px-4 py-3 rounded-xl border cursor-pointer text-sm" style="border-color:#e5e5e5;"><span>溫塑燙</span><span class="price text-xs" style="color:var(--accent-color)">NT$2000 起</span></label></div></div></details>
+          <details class="group"><summary class="flex items-center justify-between px-4 py-3 rounded-xl border cursor-pointer text-sm" style="border-color:#e5e5e5;"><span class="text-xs font-medium opacity-80">剪髮</span><span>⌄</span></summary><div class="pt-3 space-y-2"><div><input type="checkbox" id="cut1" class="service-checkbox hidden" data-price="450" data-name="洗加剪（成人）"><label for="cut1" class="flex justify-between items-center px-4 py-3 rounded-xl border cursor-pointer text-sm" style="border-color:#e5e5e5;"><span>洗加剪（成人）</span><span class="price text-xs" style="color:var(--accent-color)">NT$450</span></label></div><div><input type="checkbox" id="cut2" class="service-checkbox hidden" data-price="350" data-name="洗加剪（學生）"><label for="cut2" class="flex justify-between items-center px-4 py-3 rounded-xl border cursor-pointer text-sm" style="border-color:#e5e5e5;"><span>洗加剪（學生）</span><span class="price text-xs" style="color:var(--accent-color)">NT$350</span></label></div><div><input type="checkbox" id="cut3" class="service-checkbox hidden" data-price="250" data-name="單剪髮"><label for="cut3" class="flex justify-between items-center px-4 py-3 rounded-xl border cursor-pointer text-sm" style="border-color:#e5e5e5;"><span>單剪髮</span><span class="price text-xs" style="color:var(--accent-color)">NT$250 起</span></label></div><div><input type="checkbox" id="cut4" class="service-checkbox hidden" data-price="150" data-name="學生單剪髮"><label for="cut4" class="flex justify-between items-center px-4 py-3 rounded-xl border cursor-pointer text-sm" style="border-color:#e5e5e5;"><span>學生單剪髮</span><span class="price text-xs" style="color:var(--accent-color)">NT$150 起</span></label></div></div></details>
+        </div>
+      </section>
+
+      <section class="rounded-2xl p-5 mb-4 shadow-sm bg-white">
+        <h2 class="text-sm font-medium mb-4" style="color:var(--accent-color)">預約時間</h2>
+        <div class="mb-4">
+          <label class="block text-xs mb-2 opacity-70">日期</label>
+          <input type="date" id="booking-date" class="w-full px-4 py-3 rounded-xl border text-sm focus:outline-none" style="border-color:#e5e5e5;">
+        </div>
+        <div>
+          <label class="block text-xs mb-2 opacity-70">時間（09:00 - 20:00）</label>
+          <input type="time" id="booking-time" min="09:00" max="20:00" class="w-full px-4 py-3 rounded-xl border text-sm focus:outline-none" style="border-color:#e5e5e5;">
+        </div>
+      </section>
+
+      <section class="rounded-2xl p-5 mb-4 shadow-sm bg-white">
+        <h2 class="text-sm font-medium mb-4" style="color:var(--accent-color)">備註</h2>
+        <textarea id="notes" rows="3" placeholder="髮況 / 希望色系 / 頭皮狀況" class="w-full px-4 py-3 rounded-xl border text-sm resize-none" style="border-color:#e5e5e5;"></textarea>
+      </section>
+
+      <section class="rounded-2xl p-5 mb-4 shadow-sm bg-white">
+        <h2 class="text-sm font-medium mb-3" style="color:var(--accent-color)">最低預估金額</h2>
+        <div class="text-center py-4"><span class="text-3xl font-light" id="total-price">NT$ 0</span></div>
+        <p class="text-xs text-center opacity-60">實際價格依髮長、髮量與設計難度調整</p>
+      </section>
+    </div>
+
+    <div class="fixed bottom-0 left-0 right-0 p-4" style="background:linear-gradient(to top, var(--bg-color) 80%, transparent);">
+      <div class="max-w-lg mx-auto">
+        <button id="submit-btn" class="w-full py-4 rounded-2xl text-white font-medium text-base shadow-lg" style="background:var(--button-color)">立即 LINE 預約</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const LIFF_ID = "2008695838-Aegg7hnV";
+    const LINE_OA_ID = "@666simas";
+    const NOTION_ENDPOINT = "/.netlify/functions/notion-booking";
+    let selectedCount = 1, totalPrice = 0, lineUserId = "", customerName = "";
+
+    async function initLIFF() {
+      try {
+        await liff.init({ liffId: LIFF_ID, withLoginOnExternalBrowser: false });
+        if (!liff.isInClient()) return;
+        if (!liff.isLoggedIn()) return;
+        const profile = await liff.getProfile();
+        lineUserId = profile.userId || "";
+        customerName = profile.displayName || "";
+        if (customerName && !document.getElementById('customer-name').value) {
+          document.getElementById('customer-name').value = customerName;
+        }
+      } catch (err) {
+        console.error(err);
+      }
+    }
+
+    function setMinDate() {
+      const d = new Date();
+      const y = d.getFullYear();
+      const m = String(d.getMonth() + 1).padStart(2, '0');
+      const day = String(d.getDate()).padStart(2, '0');
+      const value = `${y}-${m}-${day}`;
+      const input = document.getElementById('booking-date');
+      input.min = value;
+      if (!input.value) input.value = value;
+    }
+
+    function calculateTotal() {
+      totalPrice = 0;
+      document.querySelectorAll('.service-checkbox:checked').forEach((cb) => {
+        totalPrice += parseInt(cb.dataset.price || '0', 10);
+      });
+      document.getElementById('total-price').textContent = `NT$ ${totalPrice.toLocaleString()}`;
+    }
+
+    function showToast(message, ok = true) {
+      const old = document.querySelector('.toast-message');
+      if (old) old.remove();
+      const toast = document.createElement('div');
+      toast.className = 'toast-message fixed top-4 left-1/2 -translate-x-1/2 px-5 py-3 rounded-xl text-white text-sm shadow-lg z-50';
+      toast.style.backgroundColor = ok ? '#06c755' : '#d9534f';
+      toast.textContent = message;
+      document.body.appendChild(toast);
+      setTimeout(() => {
+        toast.style.transition = 'opacity .3s';
+        toast.style.opacity = '0';
+        setTimeout(() => toast.remove(), 300);
+      }, 2200);
+    }
+
+    function isTimeInRange(t) {
+      return !!t && t >= '09:00' && t <= '20:00';
+    }
+
+    async function sendToNotion(payload) {
+      const res = await fetch(NOTION_ENDPOINT, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) throw new Error(data.error || '寫入 Notion 失敗');
+      return data;
+    }
+
+    document.getElementById('person-count').addEventListener('click', (e) => {
+      const btn = e.target.closest('.count-btn');
+      if (!btn) return;
+      document.querySelectorAll('.count-btn').forEach((b) => b.classList.remove('active'));
+      btn.classList.add('active');
+      selectedCount = parseInt(btn.dataset.count || '1', 10);
+    });
+
+    document.querySelectorAll('.service-checkbox').forEach((cb) => cb.addEventListener('change', calculateTotal));
+
+    document.getElementById('submit-btn').addEventListener('click', async () => {
+      const btn = document.getElementById('submit-btn');
+      if (btn.dataset.locked === '1') return;
+
+      const date = document.getElementById('booking-date').value;
+      const time = document.getElementById('booking-time').value;
+      const notes = (document.getElementById('notes').value || '無').trim();
+      const nameInput = (document.getElementById('customer-name').value || '').trim();
+      const finalCustomerName = nameInput || customerName || 'LINE客戶';
+      const selectedServices = [];
+
+      document.querySelectorAll('.service-checkbox:checked').forEach((cb) => selectedServices.push(cb.dataset.name));
+
+      if (selectedServices.length === 0) return showToast('請選擇至少一項服務', false);
+      if (!date) return showToast('請選擇預約日期', false);
+      if (!time) return showToast('請選擇預約時間', false);
+      if (!isTimeInRange(time)) return showToast('時間需在 09:00 - 20:00', false);
+
+      btn.dataset.locked = '1';
+      btn.style.opacity = '.85';
+      btn.textContent = '送出中…';
+
+      try {
+        await sendToNotion({
+          bookingTitle: 'LINE預約',
+          bookingDate: date,
+          bookingTime: time,
+          customer: finalCustomerName,
+          services: selectedServices.join('、'),
+          notes,
+          lineUserId: lineUserId || '',
+          peopleCount: selectedCount,
+          minPrice: totalPrice
+        });
+
+        const message = `【ANH髮廊｜預約申請】\n人數：${selectedCount} 人\n日期：${date}\n時間：${time}\n客人：${finalCustomerName}\n服務：${selectedServices.join('、')}\n最低預估金額：NT$ ${totalPrice.toLocaleString()}\n備註：${notes}\n\n請回覆「已確認」或提供可改時段，謝謝🙏`;
+        const url = 'https://line.me/R/oaMessage/' + encodeURIComponent(LINE_OA_ID) + '/?' + encodeURIComponent(message);
+        window.location.href = url;
+      } catch (err) {
+        console.error(err);
+        showToast(err.message || '送出失敗', false);
+        btn.dataset.locked = '0';
+        btn.style.opacity = '1';
+        btn.textContent = '立即 LINE 預約';
+      }
+    });
+
+    window.addEventListener('load', async () => {
+      await initLIFF();
+      setMinDate();
+      calculateTotal();
+    });
+  </script>
+</body>
+</html>
